@@ -1,5 +1,6 @@
 package com.aop.aophomework.controller;
 
+import com.aop.aophomework.annotation.ExecutionTime;
 import com.aop.aophomework.dto.ResponseWrapper;
 import com.aop.aophomework.dto.UserDTO;
 import com.aop.aophomework.service.UserService;
@@ -21,6 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ExecutionTime
     @GetMapping
     public ResponseEntity<ResponseWrapper> findAll() {
         List<UserDTO> users = userService.findAll();
