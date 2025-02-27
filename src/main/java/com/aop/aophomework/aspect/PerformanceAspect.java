@@ -16,25 +16,21 @@ public class PerformanceAspect {
     public void executionTimePC() {};
 
     @Around("executionTimePC()")
-    public Object aroundAnyExecutionTimeAdvice(ProceedingJoinPoint proceedingJoinPoint) {
+    public Object aroundAnyExecutionTimeAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         long beforeExecutionTime = System.currentTimeMillis();
 
-        Object result = null;
         log.info("Execution Starts...");
 
         try {
-            result = proceedingJoinPoint.proceed();
+            return proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
             log.error("Error occurred while measuring execution time: {}", throwable.getMessage());
+            throw throwable;
+        } finally {
+            long duration = System.currentTimeMillis() - beforeExecutionTime;
+            log.info("Time taken to execute: {} ms, Method: {}",
+                    duration, proceedingJoinPoint.getSignature().toShortString());
         }
-
-        long afterExecutionTime = System.currentTimeMillis();
-        long duration = afterExecutionTime - beforeExecutionTime;
-        log.info("Time taken to execute: {} ms, Method: {}",
-                duration, proceedingJoinPoint.getSignature().toShortString());
-
-        return result;
     }
-
 }
