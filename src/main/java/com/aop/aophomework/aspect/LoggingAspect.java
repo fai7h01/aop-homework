@@ -26,7 +26,7 @@ public class LoggingAspect {
 
     @AfterThrowing(value = "anyControllerOperation()", throwing = "exception")
     public void afterThrowingAnyControllerExceptionAdvice(JoinPoint joinPoint, Exception exception) {
-        log.info("After Throwing -> Method: {}, Exception: {}",
+        log.error("After Throwing -> Method: {}, Exception: {}",
                 joinPoint.getSignature(), exception.toString());
     }
 }
